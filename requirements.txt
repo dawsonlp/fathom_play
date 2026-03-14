@@ -1,2 +1,0 @@
-fathom-python
-python-dotenv

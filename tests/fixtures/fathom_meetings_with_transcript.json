@@ -1,0 +1,63 @@
+{
+  "items": [
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "recording_id": 9990001,
+      "title": "Alice / Bob",
+      "meeting_title": "Alice / Bob",
+      "recording_start_time": "2025-03-13T14:04:19.000Z",
+      "recording_end_time": "2025-03-13T14:33:42.000Z",
+      "duration_seconds": 1763,
+      "recorded_by": {
+        "name": "Alice Testerson",
+        "email": "alice@example.com"
+      },
+      "calendar_invitees": [
+        {
+          "name": "Bob Mockwell",
+          "email": "bob@example.com"
+        },
+        {
+          "name": "Alice Testerson",
+          "email": "alice@example.com"
+        }
+      ],
+      "transcript": [
+        {
+          "speaker": {
+            "name": "Alice Testerson",
+            "display_name": "Alice Testerson",
+            "email": "alice@example.com"
+          },
+          "text": "Let's get started with the standup.",
+          "timestamp": "00:05"
+        },
+        {
+          "speaker": {
+            "name": "Bob Mockwell",
+            "display_name": "Bob Mockwell",
+            "email": "bob@example.com"
+          },
+          "text": "Sounds good to me.",
+          "timestamp": "00:12"
+        },
+        {
+          "speaker": {
+            "name": "Alice Testerson",
+            "display_name": "Alice Testerson",
+            "email": "alice@example.com"
+          },
+          "text": "What are you working on today?",
+          "timestamp": "00:13"
+        }
+      ],
+      "default_summary": {
+        "markdown_formatted": "# Alice / Bob\n\n## Summary\nAlice and Bob discussed their current tasks and priorities."
+      },
+      "action_items": null,
+      "crm_matches": null
+    }
+  ],
+  "next_cursor": null,
+  "limit": 20
+}

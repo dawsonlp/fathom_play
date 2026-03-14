@@ -1,0 +1,51 @@
+{
+  "items": [
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "recording_id": 9990001,
+      "title": "Alice / Bob",
+      "meeting_title": "Alice / Bob",
+      "recording_start_time": "2025-03-13T14:04:19.000Z",
+      "recording_end_time": "2025-03-13T14:33:42.000Z",
+      "duration_seconds": 1763,
+      "recorded_by": {
+        "name": "Alice Testerson",
+        "email": "alice@example.com"
+      },
+      "calendar_invitees": [
+        {
+          "name": "Bob Mockwell",
+          "email": "bob@example.com"
+        },
+        {
+          "name": "Alice Testerson",
+          "email": "alice@example.com"
+        }
+      ],
+      "transcript": null,
+      "default_summary": null,
+      "action_items": null,
+      "crm_matches": null
+    },
+    {
+      "id": "f9e8d7c6-b5a4-3210-fedc-ba0987654321",
+      "recording_id": 9990002,
+      "title": "Test Standup",
+      "meeting_title": "Test Standup",
+      "recording_start_time": "2025-03-12T20:00:52.000Z",
+      "recording_end_time": "2025-03-12T20:02:43.000Z",
+      "duration_seconds": 111,
+      "recorded_by": {
+        "name": "Alice Testerson",
+        "email": "alice@example.com"
+      },
+      "calendar_invitees": [],
+      "transcript": null,
+      "default_summary": null,
+      "action_items": null,
+      "crm_matches": null
+    }
+  ],
+  "next_cursor": "eyJmYWtlQ3Vyc29yIjoiYWJjMTIzIn0=",
+  "limit": 20
+}

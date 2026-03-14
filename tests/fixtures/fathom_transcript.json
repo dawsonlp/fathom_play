@@ -1,0 +1,31 @@
+{
+  "transcript": [
+    {
+      "speaker": {
+        "name": "Alice Testerson",
+        "display_name": "Alice Testerson",
+        "email": "alice@example.com"
+      },
+      "text": "Let's get started with the standup.",
+      "timestamp": "00:05"
+    },
+    {
+      "speaker": {
+        "name": "Bob Mockwell",
+        "display_name": "Bob Mockwell",
+        "email": "bob@example.com"
+      },
+      "text": "Sounds good to me.",
+      "timestamp": "00:12"
+    },
+    {
+      "speaker": {
+        "name": "Alice Testerson",
+        "display_name": "Alice Testerson",
+        "email": "alice@example.com"
+      },
+      "text": "What are you working on today?",
+      "timestamp": "00:13"
+    }
+  ]
+}
