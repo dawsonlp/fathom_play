@@ -1,0 +1,60 @@
+{
+  "experiment_family": "analysis_vertical",
+  "status": "active",
+  "primary_recording_id": 140341999,
+  "model": {
+    "provider": "ollama",
+    "name": "gemma4:e2b",
+    "format": "json",
+    "temperature": 0
+  },
+  "targets": [
+    {
+      "id": "conversation_classification",
+      "prompt": "targets/conversation_classification/prompt_v1.md",
+      "status": "draft"
+    },
+    {
+      "id": "action_items",
+      "prompt": "targets/action_items/prompt_v1.md",
+      "status": "draft"
+    },
+    {
+      "id": "decisions",
+      "prompt": "targets/decisions/prompt_v1.md",
+      "status": "draft"
+    },
+    {
+      "id": "open_questions_and_risks",
+      "prompt": "targets/open_questions_and_risks/prompt_v1.md",
+      "status": "draft"
+    },
+    {
+      "id": "coaching_review",
+      "prompt": "targets/coaching_review/prompt_v1.md",
+      "status": "draft"
+    },
+    {
+      "id": "people_dynamics",
+      "prompt": "targets/people_dynamics/prompt_v1.md",
+      "status": "draft"
+    },
+    {
+      "id": "working_styles",
+      "prompt": "targets/working_styles/prompt_v1.md",
+      "status": "draft"
+    },
+    {
+      "id": "significant_ideas",
+      "prompt": "targets/significant_ideas/prompt_v1_evidence_candidates.md",
+      "status": "draft"
+    }
+  ],
+  "comparison_points": [
+    {
+      "recording_id": 140341999,
+      "path": "comparisons/human_baseline_140341999.md",
+      "description": "Human comparison notes from the transcript-level context and prior local-model runs."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "experiment_id": "",
+  "recording_id": 0,
+  "target": "",
+  "vertical_variant": "v1",
+  "preprocessing_variant": "none_full_transcript",
+  "prompt_path": "",
+  "schema_path": "shared/output_schema.json",
+  "model": {
+    "provider": "ollama",
+    "name": "gemma4:e2b",
+    "format": "json",
+    "temperature": 0
+  },
+  "runtime": {
+    "username": "",
+    "context": ""
+  },
+  "artifacts": {
+    "prompt": "prompt.txt",
+    "raw_output": "raw_output.json",
+    "normalized_output": "normalized_output.json",
+    "validation": "validation.json",
+    "score": "score.json"
+  },
+  "created_at": ""
+}
+

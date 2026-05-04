@@ -1,0 +1,20 @@
+{
+  "experiment_id": "",
+  "recording_id": 0,
+  "target": "",
+  "scores": {
+    "valid_schema": 0,
+    "evidence_completeness": 0,
+    "evidence_accuracy": 0,
+    "claim_usefulness": 0,
+    "claim_carefulness": 0,
+    "false_positives": 0,
+    "missing_obvious_items": 0
+  },
+  "total": 0,
+  "reviewer_notes": "",
+  "strengths": [],
+  "weaknesses": [],
+  "next_tuning_step": ""
+}
+

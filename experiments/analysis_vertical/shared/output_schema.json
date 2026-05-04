@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VerticalAnalysisOutput",
+  "type": "object",
+  "required": ["target", "summary", "confidence", "findings"],
+  "additionalProperties": false,
+  "properties": {
+    "target": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string",
+      "description": "One short paragraph. Do not use this as a substitute for findings."
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low"]
+    },
+    "findings": {
+      "type": "array",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "required": ["claim", "category", "owner", "evidence"],
+        "additionalProperties": true,
+        "properties": {
+          "claim": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "owner": {
+            "type": ["string", "null"]
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "required": ["speaker", "timestamp", "excerpt"],
+              "additionalProperties": false,
+              "properties": {
+                "speaker": {
+                  "type": "string"
+                },
+                "timestamp": {
+                  "type": "string"
+                },
+                "excerpt": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "caveat": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

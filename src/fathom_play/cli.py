@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
+from typing import Annotated
 
 import typer
 from rich.console import Console
@@ -10,10 +12,16 @@ from rich.syntax import Syntax
 from rich.table import Table
 
 from fathom_play import fathom_mapper
+from fathom_play.automation import ConversationAutomation
 from fathom_play.fathom_client import FathomApiError, FathomHttpClient
 
 app = typer.Typer(help="Fathom.ai meeting tools")
 console = Console()
+DataRootOption = Annotated[Path | None, typer.Option(help="Override application data directory")]
+UsernameOption = Annotated[str, typer.Option("--username", "-u", help="User identity for coaching analysis")]
+ContextOption = Annotated[str, typer.Option("--context", "-c", help="Optional analysis context")]
+RecordingIdAnalyzeArgument = Annotated[int, typer.Argument(help="Recording ID to analyze")]
+RecordingIdDeleteArgument = Annotated[int, typer.Argument(help="Recording ID to delete locally")]
 
 
 def _get_client() -> FathomHttpClient:
@@ -31,6 +39,14 @@ def _print_raw(resp):
     console.print(Syntax(json.dumps(headers_dict, indent=2), "json"))
     console.print("\n[bold cyan]Body[/bold cyan]")
     console.print(Syntax(json.dumps(resp.data, indent=2, default=str), "json"))
+
+
+def _automation(data_root: Path | None = None, with_source: bool = True, with_model: bool = True) -> ConversationAutomation:
+    try:
+        return ConversationAutomation(data_root=data_root, with_source=with_source, with_model=with_model)
+    except ValueError as e:
+        console.print(f"[red]{e}[/red]")
+        raise typer.Exit(1) from None
 
 
 @app.command()
@@ -145,6 +161,77 @@ def summary(
     from rich.markdown import Markdown
 
     console.print(Markdown(s.markdown_text))
+
+
+@app.command("ingest-local")
+def ingest_local(
+    data_root: DataRootOption = None,
+):
+    """Ingest unprocessed Fathom conversations into local storage."""
+    automation = _automation(data_root=data_root, with_source=True, with_model=False)
+    try:
+        result = automation.ingest()
+    except FathomApiError as e:
+        console.print(f"[red]API error ({e.status_code}): {e.body[:200]}[/red]")
+        raise typer.Exit(1) from None
+    except Exception as e:
+        console.print(f"[red]Ingestion failed: {e}[/red]")
+        raise typer.Exit(1) from None
+
+    console.print(
+        f"Discovered {result.discovered}; skipped {result.skipped}; "
+        f"ingested {result.completed}; failed {result.failed}."
+    )
+
+
+@app.command("analyze-local")
+def analyze_local(
+    recording_id: RecordingIdAnalyzeArgument,
+    username: UsernameOption,
+    context: ContextOption = "",
+    data_root: DataRootOption = None,
+):
+    """Analyze a locally ingested conversation."""
+    automation = _automation(data_root=data_root, with_source=False, with_model=True)
+    try:
+        analysis_run_id = automation.analyze(recording_id, username=username, context=context)
+    except Exception as e:
+        console.print(f"[red]Analysis failed: {e}[/red]")
+        raise typer.Exit(1) from None
+
+    console.print(f"Analysis run {analysis_run_id} completed for recording {recording_id}.")
+
+
+@app.command("query-local")
+def query_local(
+    data_root: DataRootOption = None,
+):
+    """Show locally stored conversations."""
+    automation = _automation(data_root=data_root, with_source=False, with_model=False)
+    rows = automation.query()
+    table = Table(title="Local conversations")
+    table.add_column("Recording ID", style="dim")
+    table.add_column("Status")
+    table.add_column("Start")
+    table.add_column("Title")
+    for row in rows:
+        table.add_row(str(row.recording_id), row.status, row.start_time, row.title)
+    console.print(table)
+
+
+@app.command("delete-local")
+def delete_local(
+    recording_id: RecordingIdDeleteArgument,
+    data_root: DataRootOption = None,
+):
+    """Delete local records and artifacts for a conversation."""
+    automation = _automation(data_root=data_root, with_source=False, with_model=False)
+    try:
+        automation.delete_local(recording_id)
+    except Exception as e:
+        console.print(f"[red]Local deletion failed: {e}[/red]")
+        raise typer.Exit(1) from None
+    console.print(f"Deleted local data for recording {recording_id}.")
 
 
 if __name__ == "__main__":
