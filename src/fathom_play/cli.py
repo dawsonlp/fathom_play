@@ -14,12 +14,14 @@ from rich.table import Table
 from fathom_play import fathom_mapper
 from fathom_play.automation import ConversationAutomation
 from fathom_play.fathom_client import FathomApiError, FathomHttpClient
+from fathom_play.model_adapter import DEFAULT_MODEL
 
 app = typer.Typer(help="Fathom.ai meeting tools")
 console = Console()
 DataRootOption = Annotated[Path | None, typer.Option(help="Override application data directory")]
 UsernameOption = Annotated[str, typer.Option("--username", "-u", help="User identity for coaching analysis")]
 ContextOption = Annotated[str, typer.Option("--context", "-c", help="Optional analysis context")]
+ModelOption = Annotated[str, typer.Option("--model", "-m", help="Model for analysis (e.g. claude-sonnet-4-6, claude-opus-4-7, gemma4:e2b)")]
 RecordingIdAnalyzeArgument = Annotated[int, typer.Argument(help="Recording ID to analyze")]
 RecordingIdDeleteArgument = Annotated[int, typer.Argument(help="Recording ID to delete locally")]
 
@@ -41,9 +43,14 @@ def _print_raw(resp):
     console.print(Syntax(json.dumps(resp.data, indent=2, default=str), "json"))
 
 
-def _automation(data_root: Path | None = None, with_source: bool = True, with_model: bool = True) -> ConversationAutomation:
+def _automation(
+    data_root: Path | None = None,
+    with_source: bool = True,
+    with_model: bool = True,
+    model: str = DEFAULT_MODEL,
+) -> ConversationAutomation:
     try:
-        return ConversationAutomation(data_root=data_root, with_source=with_source, with_model=with_model)
+        return ConversationAutomation(data_root=data_root, with_source=with_source, with_model=with_model, model=model)
     except ValueError as e:
         console.print(f"[red]{e}[/red]")
         raise typer.Exit(1) from None
@@ -190,9 +197,10 @@ def analyze_local(
     username: UsernameOption,
     context: ContextOption = "",
     data_root: DataRootOption = None,
+    model: ModelOption = DEFAULT_MODEL,
 ):
     """Analyze a locally ingested conversation."""
-    automation = _automation(data_root=data_root, with_source=False, with_model=True)
+    automation = _automation(data_root=data_root, with_source=False, with_model=True, model=model)
     try:
         analysis_run_id = automation.analyze(recording_id, username=username, context=context)
     except Exception as e:

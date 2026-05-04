@@ -31,4 +31,33 @@ For `gemma4:e2b`, the strongest pattern is:
 - Ultra-compact action classifier by slice, reasoning off by default.
 - Mechanics/noise negative filter before action classification.
 - Significant-ideas synthesis with fixed buckets.
-- Anthropic/cloud comparison using the same local artifacts and validation metrics.
+- ~~Anthropic/cloud comparison using the same local artifacts and validation metrics.~~ → `run_claude_model_comparison.py`
+
+## Anthropic Cloud Model Comparison
+
+Runner: `run_claude_model_comparison.py`
+
+Compares `claude-sonnet-4-6` and `claude-opus-4-7` against the `gemma4:e2b` V4 repaired baseline using identical inputs and validation metrics.
+
+Usage (requires local artifact runs):
+
+```bash
+python experiments/analysis_vertical/run_claude_model_comparison.py \
+  --recording-id 140341999 \
+  --candidate-run action_items-v2-slices-140341999-YYYYMMDD-HHMMSS \
+  --context-run context_pack-v1-140341999-YYYYMMDD-HHMMSS \
+  --baseline-run action_items-v4-repaired-140341999-YYYYMMDD-HHMMSS
+```
+
+Key metrics tracked:
+
+| Metric | What it reveals |
+| --- | --- |
+| Promoted count | How many candidates each model advances as action items |
+| Hard-negative promotions | False positives on known-bad candidates |
+| Coverage failures | Did the model skip any candidate IDs (as gemma4 did without repair)? |
+| Invalid slice count | Slices requiring repair |
+| Fence strip count | JSON compliance — did the model wrap output in markdown fences? |
+| Total latency (s) | Wall-clock cost of the cloud inference per model |
+
+Results are written to `runs/{recording_id}/claude-model-comparison-{timestamp}/` with per-slice JSON, per-arm summary, a combined `comparison.json`, and a `comparison.md` report for manual review.

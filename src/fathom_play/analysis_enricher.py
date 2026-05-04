@@ -67,7 +67,9 @@ class AnalysisEnricher:
                 content=(
                     "You analyze meeting transcripts. Return only valid JSON. "
                     "Use careful evidence-grounded language. Include evidence arrays with "
-                    "speaker, timestamp, and excerpt when making meaningful claims."
+                    "speaker, timestamp, and excerpt when making meaningful claims. "
+                    "Your response must begin with { and end with }. "
+                    "Never use ```json, ```, or any other code fence or wrapper."
                 )
             ),
             HumanMessage(

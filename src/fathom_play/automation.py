@@ -7,7 +7,7 @@ from pathlib import Path
 from fathom_play.artifacts import ArtifactStore
 from fathom_play.fathom_client import FathomHttpClient
 from fathom_play.knowledge_base import ConversationKnowledgeBase
-from fathom_play.model_adapter import ModelAdapter
+from fathom_play.model_adapter import DEFAULT_MODEL, ModelAdapter
 from fathom_play.source_importer import FathomSourceImporter
 from fathom_play.workflows import WorkflowRunner, WorkflowSummary
 
@@ -15,14 +15,20 @@ from fathom_play.workflows import WorkflowRunner, WorkflowSummary
 class ConversationAutomation:
     """Stable interface used by CLI and future local automation adapters."""
 
-    def __init__(self, data_root: Path | None = None, with_source: bool = True, with_model: bool = True):
+    def __init__(
+        self,
+        data_root: Path | None = None,
+        with_source: bool = True,
+        with_model: bool = True,
+        model: str = DEFAULT_MODEL,
+    ):
         self.artifacts = ArtifactStore(data_root)
         self.kb = ConversationKnowledgeBase(self.artifacts.db_path)
         source = None
         if with_source:
             source = FathomSourceImporter(FathomHttpClient())
-        model = ModelAdapter() if with_model else None
-        self.runner = WorkflowRunner(self.kb, self.artifacts, source_importer=source, model_adapter=model)
+        model_adapter = ModelAdapter(model) if with_model else None
+        self.runner = WorkflowRunner(self.kb, self.artifacts, source_importer=source, model_adapter=model_adapter)
 
     def ingest(self) -> WorkflowSummary:
         return self.runner.ingest()
